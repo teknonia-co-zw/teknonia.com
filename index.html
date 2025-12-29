@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TEKNONIA | Intelligent Digital Craftsmanship</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Config & Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#0F1113',
+                        softwhite: '#F7F7F7',
+                        gold: '#C9A94A',
+                        slate: '#3B3F45',
+                        'slate-dark': '#1a1d21'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar for inner elements */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* View Transitions */
+        .view-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .view-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Base Styles */
+        body {
+            background-color: #F7F7F7;
+            color: #0F1113;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col min-h-screen overflow-x-hidden selection:bg-gold selection:text-charcoal">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-charcoal/95 backdrop-blur-sm text-white transition-all duration-300 border-b border-white/5" id="main-nav">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <!-- Logo - Updated with PNG -->
+            <a href="#home" onclick="navigateTo('home')" class="flex items-center gap-3 group relative z-50">
+                <!-- Using uploaded PNG logo -->
+                <img src="extracted-logo-high-res.png" alt="Teknonia" class="h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" onclick="navigateTo('home')" class="nav-link text-sm font-medium text-gray-300 hover:text-gold transition-colors duration-300 relative group">
+                    Home
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#services" onclick="navigateTo('services')" class="nav-link text-sm font-medium text-gray-300 hover:text-gold transition-colors duration-300 relative group">
+                    Services
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#work" onclick="navigateTo('work')" class="nav-link text-sm font-medium text-gray-300 hover:text-gold transition-colors duration-300 relative group">
+                    Portfolio
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#process" onclick="navigateTo('process')" class="nav-link text-sm font-medium text-gray-300 hover:text-gold transition-colors duration-300 relative group">
+                    Process
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#about" onclick="navigateTo('about')" class="nav-link text-sm font-medium text-gray-300 hover:text-gold transition-colors duration-300 relative group">
+                    About
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </div>
+
+            <!-- CTA & Mobile Menu Button -->
+            <div class="flex items-center gap-4 relative z-50">
+                <button onclick="openModal('quote-modal')" class="hidden md:flex items-center px-6 py-2.5 border border-gold text-gold hover:bg-gold hover:text-charcoal transition-all duration-300 rounded-sm text-sm font-bold tracking-wide uppercase">
+                    Start Project
+                </button>
+                <button class="md:hidden text-white hover:text-gold transition-colors p-2" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-8 h-8"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Full Screen Overlay) -->
+        <div id="mobile-menu" class="fixed inset-0 bg-charcoal z-40 transform translate-x-full flex flex-col justify-center items-center h-screen w-screen md:hidden">
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none"></div>
+            <div class="flex flex-col items-center gap-8 p-6 text-center">
+                <a href="#home" onclick="mobileNavigate('home')" class="text-3xl font-serif text-white hover:text-gold transition-colors">Home</a>
+                <a href="#services" onclick="mobileNavigate('services')" class="text-3xl font-serif text-white hover:text-gold transition-colors">Services</a>
+                <a href="#work" onclick="mobileNavigate('work')" class="text-3xl font-serif text-white hover:text-gold transition-colors">Portfolio</a>
+                <a href="#process" onclick="mobileNavigate('process')" class="text-3xl font-serif text-white hover:text-gold transition-colors">Process</a>
+                <a href="#about" onclick="mobileNavigate('about')" class="text-3xl font-serif text-white hover:text-gold transition-colors">About</a>
+                <div class="h-px w-20 bg-white/10 my-4"></div>
+                <button onclick="mobileNavigate('quote')" class="px-8 py-4 bg-gold text-charcoal font-bold text-lg rounded-sm shadow-lg hover:bg-white transition-all w-full max-w-xs">Start Your Project</button>
+            </div>
+            <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white/50 hover:text-white p-2">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow pt-20">
+
+        <!-- VIEW: HOME -->
+        <section id="view-home" class="view-section active">
+            <!-- Hero -->
+            <div class="relative min-h-[92vh] flex items-center bg-charcoal text-white overflow-hidden">
+                <!-- Parallax Background Elements -->
+                <div class="absolute inset-0 z-0 pointer-events-none">
+                     <div class="absolute top-0 right-0 w-1/2 h-full bg-[#15181b] hidden lg:block skew-x-12 transform translate-x-32 parallax-layer" data-speed="0.05"></div>
+                     <div class="absolute -top-20 -right-20 w-[500px] h-[500px] bg-gold rounded-full opacity-[0.03] blur-[100px] parallax-layer" data-speed="0.1"></div>
+                     <div class="absolute bottom-20 left-10 w-64 h-64 bg-slate-500 rounded-full opacity-[0.05] blur-[80px] parallax-layer" data-speed="0.08"></div>
+                </div>
+
+                <div class="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center mt-8">
+                    <div class="lg:w-3/5 lg:pr-16 mb-16 lg:mb-0 text-center lg:text-left">
+                        <div class="inline-block px-4 py-1.5 border border-gold/30 bg-gold/5 text-gold text-xs uppercase tracking-widest font-bold mb-8 rounded-full animate-fade-in backdrop-blur-sm">
+                            Harare Web Studio
+                        </div>
+                        <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8 font-sans animate-slide-up opacity-0" style="animation-delay: 0.1s">
+                            Intelligent Digital <br class="hidden md:block"/>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold">Craftsmanship</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-slide-up opacity-0" style="animation-delay: 0.3s">
+                            Websites and digital systems built to earn trust, drive action, and grow Zimbabwean businesses.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12 animate-slide-up opacity-0" style="animation-delay: 0.5s">
+                            <button onclick="openModal('quote-modal')" class="bg-gold text-charcoal px-8 py-4 font-bold rounded-sm hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(201,169,74,0.3)] flex items-center justify-center group">
+                                Start Your Project <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                            <button onclick="navigateTo('work')" class="border border-white/30 text-white px-8 py-4 font-medium rounded-sm hover:bg-white/10 hover:border-white transition-all duration-300 flex items-center justify-center">
+                                View Our Work
+                            </button>
+                        </div>
+
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-4 text-xs font-medium text-gray-500 uppercase tracking-wide border-t border-white/10 pt-8 animate-slide-up opacity-0" style="animation-delay: 0.7s">
+                            <span class="flex items-center"><i data-lucide="shield" class="w-4 h-4 mr-2 text-gold"></i> Trusted Locally</span>
+                            <span class="flex items-center"><i data-lucide="smartphone" class="w-4 h-4 mr-2 text-gold"></i> Mobile First</span>
+                            <span class="flex items-center"><i data-lucide="credit-card" class="w-4 h-4 mr-2 text-gold"></i> Paynow Ready</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Visual (Interactive Parallax Cards) -->
+                    <div class="lg:w-2/5 relative w-full max-w-md lg:max-w-full mx-auto animate-fade-in opacity-0" style="animation-delay: 0.6s">
+                        <div class="grid grid-cols-2 gap-4 parallax-container">
+                            <div class="space-y-4 pt-12 parallax-layer" data-speed="0.04">
+                                <div class="bg-white/10 backdrop-blur-md p-5 rounded-lg border border-white/5 hover:border-gold/50 transition duration-500 transform hover:-translate-y-2 cursor-default shadow-2xl">
+                                    <div class="h-2 w-12 bg-gold rounded mb-3"></div>
+                                    <div class="h-24 w-full bg-gradient-to-br from-white/10 to-transparent rounded mb-3 flex items-center justify-center text-gray-500 text-xs border border-white/5">
+                                        <i data-lucide="bar-chart-2" class="w-8 h-8 text-white/20"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center text-xs text-gray-300">
+                                        <span class="font-medium">Conversion Up</span>
+                                        <div class="flex items-center gap-1 text-green-400 font-bold">
+                                            <span>+34%</span>
+                                            <i data-lucide="trending-up" class="w-3 h-3"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-dark/80 backdrop-blur-sm p-5 rounded-lg border border-white/5 shadow-xl">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <div class="h-8 w-8 rounded-full bg-blue-500/20 flex items-center justify-center"><i data-lucide="globe" class="w-4 h-4 text-blue-400"></i></div>
+                                        <div class="text-sm font-bold">SEO Ready</div>
+                                    </div>
+                                    <div class="text-xs text-gray-500">Google Indexing & Meta tags included standard.</div>
+                                </div>
+                            </div>
+                            <div class="space-y-4 parallax-layer" data-speed="0.08">
+                                <div class="bg-softwhite p-5 rounded-lg text-charcoal shadow-2xl transform translate-y-8 border-l-4 border-gold">
+                                    <div class="flex items-center gap-3 mb-4 border-b border-gray-200 pb-3">
+                                        <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover opacity-80">
+                                        </div>
+                                        <div>
+                                            <div class="h-2.5 w-20 bg-charcoal rounded-sm mb-1.5"></div>
+                                            <div class="h-2 w-12 bg-gray-400 rounded-sm"></div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2 mb-4">
+                                        <div class="h-2 w-full bg-gray-100 rounded"></div>
+                                        <div class="h-2 w-5/6 bg-gray-100 rounded"></div>
+                                    </div>
+                                    <button class="w-full py-2 bg-charcoal text-white text-xs font-bold rounded-sm hover:bg-gold hover:text-charcoal transition-colors">View Demo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New: Featured Websites Section -->
+            <div class="py-24 bg-charcoal text-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-6 font-serif">Recent Projects</h2>
+                        <div class="h-1 w-24 bg-gold mx-auto mb-8"></div>
+                        <p class="text-gray-400 max-w-2xl mx-auto text-lg">Check out some of our latest website creations for Zimbabwean businesses</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Project 1 -->
+                        <div class="bg-slate-dark/50 rounded-xl overflow-hidden border border-white/10 hover:border-gold/30 transition-all duration-300 hover:transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
+                                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=80')] bg-cover opacity-20"></div>
+                                <div class="relative z-10 text-center">
+                                    <div class="w-20 h-20 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i data-lucide="home" class="w-10 h-10 text-gold"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold">Real Estate Portal</h3>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <p class="text-gray-300 mb-6 text-sm">Modern property listing platform with advanced filters and virtual tours</p>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="flex items-center text-xs text-green-400">
+                                        <i data-lucide="check-circle" class="w-4 h-4 mr-1"></i>
+                                        <span>Mobile Optimized</span>
+                                    </div>
+                                    <div class="flex items-center text-xs text-blue-400">
+                                        <i data-lucide="check-circle" class="w-4 h-4 mr-1"></i>
+                                        <span>SEO Ready</span>
+                                    </div>
+                                </div>
+                                <button onclick="openModal('quote-modal')" class="w-full py-3 bg-gold text-charcoal font-bold rounded-lg hover:bg-white transition-all duration-300">Get Quote</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div class="bg-slate-dark/50 rounded-xl overflow-hidden border border-white/10 hover:border-gold/30 transition-all duration-300 hover:transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-amber-900 to-amber-800 flex items-center justify-center relative overflow-hidden">
+                                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80')] bg-cover opacity-20"></div>
+                                <div class="relative z-10 text-center">
+                                    <div class="w-20 h-20 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i data-lucide="utensils" class="w-10 h-10 text-gold"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold">Restaurant Website</h3>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <p class="text-gray-300 mb-6 text-sm">Online menu, reservation system, and food ordering with local payments</p>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="flex items-center text-xs text-green-400">
+                                        <i data-lucide="check-circle" class="w-4 h-4 mr-1"></i>
+                                        <span>Online Booking</span>
+                                    </div>
+                                    <div class="flex items-center text-xs text-blue-400">
+                                        <i data-lucide="check-circle" class="w-4 h-4 mr-1"></i>
+                                        <span>Ecocash Ready</span>
+                                    </div>
+                                </div>
+                                <button onclick="openModal('quote-modal')" class="w-full py-3 bg-gold text-charcoal font-bold rounded-lg hover:bg-white transition-all duration-300">Get Quote</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div class="bg-slate-dark/50 rounded-xl overflow-hidden border border-white/10 hover:border-gold/30 transition-all duration-300 hover:transform hover:-translate-y-2">
+                            <div class="h-48 bg-gradient-to-br from-blue-900 to-blue-800 flex items-center justify-center relative overflow-hidden">
+                                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80')] bg-cover opacity-20"></div>
+                                <div class="relative z-10 text-center">
+                                    <div class="w-20 h-20 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i data-lucide="building" class="w-10 h-10 text-gold"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold">Corporate Website</h3>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <p class="text-gray-300 mb-6 text-sm">Professional corporate site with services, team profiles, and client portal</p>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="flex items-center text-xs text-green-400">
+                                        <i data-lucide="check-circle" class="w-4 h-4 mr-1"></i>
+                                        <span>Client Portal</span>
+                                    </div>
+                                    <div class="flex items-center text-xs text-blue-400">
+                                        <i data-lucide="check-circle" class="w-4 h-4 mr-1"></i>
+                                        <span>Multi-language</span>
+                                    </div>
+                                </div>
+                                <button onclick="openModal('quote-modal')" class="w-full py-3 bg-gold text-charcoal font-bold rounded-lg hover:bg-white transition-all duration-300">Get Quote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Value Grid (Clean & Responsive) -->
+            <div class="py-24 bg-white relative z-10">
+                <div class="container mx-auto px-6">
+                    <div class="grid md:grid-cols-3 gap-12 lg:gap-16">
+                        <div class="group reveal-on-scroll">
+                            <div class="mb-6 bg-softwhite w-20 h-20 rounded-xl flex items-center justify-center group-hover:bg-charcoal transition-all duration-500 text-gold shadow-sm group-hover:shadow-lg group-hover:-translate-y-2">
+                                <i data-lucide="monitor" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3 text-charcoal group-hover:text-gold transition-colors">Built With Intelligence</h3>
+                            <p class="text-gray-600 leading-relaxed text-sm md:text-base">We don't start with templates. We start with understanding — your goals, your customers, and how your website should work.</p>
+                        </div>
+                        <div class="group reveal-on-scroll" style="transition-delay: 0.1s">
+                            <div class="mb-6 bg-softwhite w-20 h-20 rounded-xl flex items-center justify-center group-hover:bg-charcoal transition-all duration-500 text-gold shadow-sm group-hover:shadow-lg group-hover:-translate-y-2">
+                                <i data-lucide="smartphone" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3 text-charcoal group-hover:text-gold transition-colors">Crafted to Perform</h3>
+                            <p class="text-gray-600 leading-relaxed text-sm md:text-base">Calm, fast, and persuasive mobile-first layouts. We ensure your site earns attention and turns it into action.</p>
+                        </div>
+                        <div class="group reveal-on-scroll" style="transition-delay: 0.2s">
+                            <div class="mb-6 bg-softwhite w-20 h-20 rounded-xl flex items-center justify-center group-hover:bg-charcoal transition-all duration-500 text-gold shadow-sm group-hover:shadow-lg group-hover:-translate-y-2">
+                                <i data-lucide="trending-up" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3 text-charcoal group-hover:text-gold transition-colors">Ready for Growth</h3>
+                            <p class="text-gray-600 leading-relaxed text-sm md:text-base">Scalable systems ready for local payments (Ecocash/Paynow). Your website is prepared for where your business is going next.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick CTA Band -->
+            <div class="bg-softwhite py-20 border-t border-gray-200 reveal-on-scroll">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-charcoal font-serif">Ready to elevate your business?</h2>
+                    <div class="flex flex-col sm:flex-row justify-center gap-6 items-center">
+                         <button onclick="navigateTo('services')" class="text-charcoal border-b-2 border-charcoal pb-1 font-bold hover:text-gold hover:border-gold transition-all text-sm uppercase tracking-wide">See Pricing</button>
+                         <span class="text-gray-400 text-sm hidden sm:inline-block">— or —</span>
+                         <button onclick="openModal('quote-modal')" class="px-8 py-3 bg-gold text-charcoal font-bold rounded-sm shadow-md hover:bg-charcoal hover:text-white transition-all transform hover:-translate-y-1">Get a Quote</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: SERVICES / PRICING -->
+        <section id="view-services" class="view-section bg-white pb-24">
+            <div class="bg-charcoal text-white py-24 mb-16 relative overflow-hidden">
+                 <!-- Parallax Abstract -->
+                 <div class="absolute -left-20 top-10 w-96 h-96 bg-white opacity-[0.02] rounded-full blur-3xl parallax-layer" data-speed="0.1"></div>
+                 
+                 <div class="container mx-auto px-6 relative z-10 text-center animate-slide-up">
+                     <h1 class="text-4xl md:text-5xl font-bold mb-6 font-serif">Clear, Upfront Pricing</h1>
+                     <div class="h-1 w-24 bg-gold mx-auto mb-8"></div>
+                     <p class="text-gray-400 max-w-2xl mx-auto text-lg">Choose the package that fits your stage of growth. No hidden fees. <br class="hidden md:block">Prices tailored for the Zimbabwean market.</p>
+                 </div>
+                 <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+            </div>
+
+            <div class="container mx-auto px-6">
+                <!-- Mobile: Swipe Hint -->
+                <div class="md:hidden text-center text-xs text-gray-400 mb-4 animate-pulse">
+                    <i data-lucide="move-horizontal" class="inline w-4 h-4 mr-1"></i> Swipe to see all packages
+                </div>
+
+                <!-- Scrollable Container for Mobile -->
+                <div class="overflow-x-auto pb-8 -mx-6 px-6 md:overflow-visible md:pb-0 md:px-0 no-scrollbar snap-x snap-mandatory">
+                    <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 min-w-[max-content] md:min-w-0">
+                        <!-- Cards will be injected by JS for maintainability -->
+                        <div id="pricing-container" class="contents"></div>
+                    </div>
+                </div>
+
+                <div class="mt-20 bg-softwhite p-8 md:p-12 rounded-lg border border-gray-200 text-center max-w-3xl mx-auto reveal-on-scroll">
+                    <h3 class="font-bold text-xl mb-3 text-charcoal">Need something custom?</h3>
+                    <p class="text-gray-600 mb-8 text-base">We build complex systems, specific integrations, and bespoke designs for larger enterprises.</p>
+                    <button onclick="openModal('quote-modal')" class="text-gold font-bold hover:text-charcoal transition-colors flex items-center justify-center mx-auto text-lg group">
+                        Contact us for a bespoke solution <i data-lucide="chevron-right" class="w-5 h-5 ml-1 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: WORK / PORTFOLIO -->
+        <section id="view-work" class="view-section bg-softwhite pb-24 min-h-screen">
+             <div class="container mx-auto px-6 py-12 md:py-20">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div class="animate-slide-up">
+                        <h2 class="text-4xl md:text-5xl font-bold text-charcoal mb-4 font-serif">Our Work</h2>
+                        <div class="h-1 w-16 bg-gold"></div>
+                        <p class="text-gray-600 mt-6 max-w-xl text-lg">
+                            A selection of real projects and concept demos tailored for the Zimbabwean market.
+                        </p>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="flex flex-wrap gap-3 mt-8 md:mt-0 animate-slide-up" style="animation-delay: 0.1s" id="portfolio-filters">
+                        <button onclick="filterPortfolio('All')" class="filter-btn active px-5 py-2 text-sm font-medium rounded-full bg-charcoal text-white transition shadow-md hover:scale-105">All</button>
+                        <button onclick="filterPortfolio('Lodges')" class="filter-btn px-5 py-2 text-sm font-medium rounded-full bg-white text-gray-600 hover:bg-gray-200 transition shadow-sm hover:scale-105">Lodges</button>
+                        <button onclick="filterPortfolio('Real Estate')" class="filter-btn px-5 py-2 text-sm font-medium rounded-full bg-white text-gray-600 hover:bg-gray-200 transition shadow-sm hover:scale-105">Real Estate</button>
+                        <button onclick="filterPortfolio('Retail')" class="filter-btn px-5 py-2 text-sm font-medium rounded-full bg-white text-gray-600 hover:bg-gray-200 transition shadow-sm hover:scale-105">Retail</button>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-grid">
+                    <!-- Portfolio Items Injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: PROCESS -->
+        <section id="view-process" class="view-section bg-charcoal text-white py-24 min-h-screen">
+            <div class="container mx-auto px-6">
+                <div class="mb-20 text-center md:text-left animate-slide-up">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 font-serif">How We Work</h2>
+                    <div class="h-1 w-24 bg-gold mb-8 mx-auto md:mx-0"></div>
+                    <p class="text-gray-400 max-w-2xl text-xl leading-relaxed">A disciplined process from concept to conversion.</p>
+                </div>
+
+                <div class="relative mt-12">
+                    <!-- Connecting Line (Desktop) -->
+                    <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gradient-to-r from-gold/0 via-gold/30 to-gold/0 z-0"></div>
+                    <!-- Connecting Line (Mobile) -->
+                    <div class="md:hidden absolute top-0 bottom-0 left-12 w-0.5 h-full bg-gradient-to-b from-gold/0 via-gold/30 to-gold/0 z-0"></div>
+                    
+                    <div class="grid md:grid-cols-4 gap-12 relative z-10">
+                        <!-- Steps -->
+                        <div class="step-card relative text-left pl-24 md:pl-0 md:text-center reveal-on-scroll">
+                            <div class="absolute left-0 top-0 md:static w-24 h-24 bg-slate-dark border border-white/10 rounded-full flex items-center justify-center mb-8 mx-auto shadow-2xl text-gold text-3xl font-serif font-bold group hover:border-gold transition-colors duration-300">
+                                1
+                            </div>
+                            <h4 class="text-xl font-bold mb-3 text-white">Listen & Learn</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">We map your goals, customers, and constraints before drawing a single pixel.</p>
+                        </div>
+                        <div class="step-card relative text-left pl-24 md:pl-0 md:text-center reveal-on-scroll" style="transition-delay: 0.1s">
+                            <div class="absolute left-0 top-0 md:static w-24 h-24 bg-slate-dark border border-white/10 rounded-full flex items-center justify-center mb-8 mx-auto shadow-2xl text-gold text-3xl font-serif font-bold group hover:border-gold transition-colors duration-300">
+                                2
+                            </div>
+                            <h4 class="text-xl font-bold mb-3 text-white">Design with Reason</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">We craft a prototype that proves the idea. Every element has a purpose.</p>
+                        </div>
+                        <div class="step-card relative text-left pl-24 md:pl-0 md:text-center reveal-on-scroll" style="transition-delay: 0.2s">
+                            <div class="absolute left-0 top-0 md:static w-24 h-24 bg-slate-dark border border-white/10 rounded-full flex items-center justify-center mb-8 mx-auto shadow-2xl text-gold text-3xl font-serif font-bold group hover:border-gold transition-colors duration-300">
+                                3
+                            </div>
+                            <h4 class="text-xl font-bold mb-3 text-white">Build with Mastery</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">We deliver a staged, testable site — fast, robust, and mobile-optimized.</p>
+                        </div>
+                        <div class="step-card relative text-left pl-24 md:pl-0 md:text-center reveal-on-scroll" style="transition-delay: 0.3s">
+                            <div class="absolute left-0 top-0 md:static w-24 h-24 bg-slate-dark border border-white/10 rounded-full flex items-center justify-center mb-8 mx-auto shadow-2xl text-gold text-3xl font-serif font-bold group hover:border-gold transition-colors duration-300">
+                                4
+                            </div>
+                            <h4 class="text-xl font-bold mb-3 text-white">Measure & Improve</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed">Post-launch, we track results and iterate to grow value for your business.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: ABOUT -->
+        <section id="view-about" class="view-section bg-softwhite py-24 min-h-screen">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col lg:flex-row gap-20">
+                    <div class="lg:w-1/2 animate-slide-up">
+                        <h2 class="text-4xl font-bold text-charcoal mb-6 font-serif">About Teknonia</h2>
+                        <div class="h-1 w-20 bg-gold mb-10"></div>
+                        <div class="prose text-gray-600 space-y-6 text-lg leading-relaxed">
+                            <p class="text-2xl font-serif italic text-charcoal">"Where Craft Meets Intelligence"</p>
+                            <p>
+                                At Teknonia we practice <span class="text-gold font-bold">téchnē</span> — the ancient art of skilled making — and we temper it with <span class="text-gold font-bold">noûs</span>, clear strategic thought.
+                            </p>
+                            <p>
+                                We are a modern atelier: artisans of digital form, philosophers of product, and engineers of outcomes. We design with the patience of a sculptor and the precision of a mathematician.
+                            </p>
+                            <p>
+                                We believe a great website is not decoration. It is a crafted instrument that speaks for your business, guides your customer's choices, and earns trust.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-1/2 animate-slide-up" style="animation-delay: 0.2s">
+                        <h3 class="text-2xl font-bold mb-10 border-b border-gray-200 pb-4 text-charcoal">The Leadership</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-6 bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg transition hover:-translate-y-1 duration-300">
+                                <div class="w-16 h-16 bg-charcoal rounded-full flex items-center justify-center text-gold font-bold text-2xl shrink-0">V</div>
+                                <div>
+                                    <h4 class="font-bold text-charcoal text-lg">Victor Makwarimba</h4>
+                                    <span class="text-xs text-gold font-bold uppercase tracking-wider block mb-2">CEO</span>
+                                    <p class="text-sm text-gray-500">Leading the vision of digital craftsmanship.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-6 bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg transition hover:-translate-y-1 duration-300">
+                                <div class="w-16 h-16 bg-charcoal rounded-full flex items-center justify-center text-gold font-bold text-2xl shrink-0">A</div>
+                                <div>
+                                    <h4 class="font-bold text-charcoal text-lg">Albright Zuzeyi</h4>
+                                    <span class="text-xs text-gold font-bold uppercase tracking-wider block mb-2">Chief Operations Officer</span>
+                                    <p class="text-sm text-gray-500">Ensuring every pixel is delivered on time.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-6 bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg transition hover:-translate-y-1 duration-300">
+                                <div class="w-16 h-16 bg-charcoal rounded-full flex items-center justify-center text-gold font-bold text-2xl shrink-0">T</div>
+                                <div>
+                                    <h4 class="font-bold text-charcoal text-lg">Takudzwa Mushonga</h4>
+                                    <span class="text-xs text-gold font-bold uppercase tracking-wider block mb-2">Chief Finance Officer</span>
+                                    <p class="text-sm text-gray-500">Structuring value for sustainable growth.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-charcoal text-white border-t border-white/10 pt-20 pb-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-20">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-3 mb-8">
+                         <!-- Using uploaded PNG logo -->
+                        <img src="extracted-logo-high-res.png" alt="Teknonia" class="h-10 w-auto object-contain">
+                    </div>
+                    <p class="text-gray-400 text-sm mb-8 leading-relaxed">
+                        Intelligent Digital Craftsmanship.<br/>
+                        Harare, Zimbabwe.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-gold hover:text-charcoal transition-all duration-300"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-gold hover:text-charcoal transition-all duration-300"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-gold hover:text-charcoal transition-all duration-300"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-8 text-white text-lg">Quick Links</h4>
+                    <ul class="space-y-4 text-sm text-gray-400">
+                        <li><a href="#home" onclick="navigateTo('home')" class="hover:text-gold transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-gold"></i> Home</a></li>
+                        <li><a href="#services" onclick="navigateTo('services')" class="hover:text-gold transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-gold"></i> Services</a></li>
+                        <li><a href="#work" onclick="navigateTo('work')" class="hover:text-gold transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-gold"></i> Portfolio</a></li>
+                        <li><a href="#about" onclick="navigateTo('about')" class="hover:text-gold transition-colors flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3 text-gold"></i> About</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 bg-gradient-to-br from-slate-dark to-charcoal p-8 rounded-xl border border-white/5 shadow-2xl">
+                    <h4 class="font-bold mb-8 text-gold text-lg">Start a Conversation</h4>
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <a href="https://wa.me/263715708327" class="flex items-center gap-4 text-gray-300 hover:text-white group p-3 rounded-lg hover:bg-white/5 transition-colors">
+                            <i data-lucide="message-square" class="text-green-500 w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-sm font-medium">WhatsApp: 071 570 8327</span>
+                        </a>
+                        <a href="tel:+263715708327" class="flex items-center gap-4 text-gray-300 hover:text-white group p-3 rounded-lg hover:bg-white/5 transition-colors">
+                            <i data-lucide="phone" class="text-gold w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-sm font-medium">Call: 071 570 8327</span>
+                        </a>
+                        <a href="mailto:teknonia.co.zw@gmail.com" class="flex items-center gap-4 text-gray-300 hover:text-white group p-3 rounded-lg hover:bg-white/5 transition-colors">
+                            <i data-lucide="mail" class="text-blue-400 w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-sm font-medium">teknonia.co.zw@gmail.com</span>
+                        </a>
+                    </div>
+                    <button onclick="openModal('quote-modal')" class="mt-10 w-full py-4 bg-white text-charcoal hover:bg-gold hover:text-white transition-all duration-300 rounded font-bold text-sm uppercase tracking-wider shadow-lg">Request a Quick Quote</button>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; <script>document.write(new Date().getFullYear())</script> Teknonia Web Studio. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-gold transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: GET A QUOTE (Responsive) -->
+    <div id="quote-modal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-charcoal/90 backdrop-blur-md transition-opacity" onclick="closeModal('quote-modal')"></div>
+        <div class="relative w-full h-full flex items-center justify-center p-0 md:p-4">
+            <div class="bg-white w-full h-full md:h-auto md:max-w-4xl md:rounded-lg shadow-2xl overflow-hidden flex flex-col md:flex-row animate-slide-up">
+                
+                <!-- Mobile Close Button -->
+                <button onclick="closeModal('quote-modal')" class="absolute top-4 right-4 z-50 p-2 bg-white/20 backdrop-blur rounded-full text-charcoal md:hidden">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+
+                <!-- Left: Quick Actions -->
+                <div class="bg-charcoal text-white p-8 md:w-1/3 flex flex-col justify-between shrink-0">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2 text-gold">Get a Quote</h3>
+                        <p class="text-gray-400 text-sm mb-8">Choose the fastest way for you.</p>
+                        
+                        <div class="space-y-3">
+                            <a href="https://wa.me/263715708327?text=Hi%20Teknonia" target="_blank" class="flex items-center p-4 bg-white/5 hover:bg-white/10 rounded border border-white/10 transition group">
+                                <i data-lucide="message-square" class="w-5 h-5 text-green-400 mr-3 group-hover:scale-110 transition"></i>
+                                <div>
+                                    <span class="block font-bold text-sm">WhatsApp</span>
+                                    <span class="text-xs text-gray-500">Fastest response</span>
+                                </div>
+                            </a>
+
+                            <a href="mailto:teknonia.co.zw@gmail.com" class="flex items-center p-4 bg-white/5 hover:bg-white/10 rounded border border-white/10 transition group">
+                                <i data-lucide="mail" class="w-5 h-5 text-blue-400 mr-3 group-hover:scale-110 transition"></i>
+                                <div>
+                                    <span class="block font-bold text-sm">Email Us</span>
+                                </div>
+                            </a>
+
+                            <a href="tel:+263715708327" class="flex items-center p-4 bg-white/5 hover:bg-white/10 rounded border border-white/10 transition group">
+                                <i data-lucide="phone" class="w-5 h-5 text-gold mr-3 group-hover:scale-110 transition"></i>
+                                <div>
+                                    <span class="block font-bold text-sm">Call Now</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-8 pt-8 border-t border-white/10 hidden md:block">
+                        <p class="text-xs text-gray-500 text-center">We typically reply within 2 hours.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Detailed Form -->
+                <div class="p-6 md:p-8 md:w-2/3 overflow-y-auto bg-softwhite relative h-full">
+                    <button onclick="closeModal('quote-modal')" class="hidden md:block absolute top-4 right-4 p-2 hover:bg-gray-200 rounded-full text-charcoal">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 mt-8 md:mt-0">Or send detailed request</h3>
+                    
+                    <form id="quote-form" class="space-y-4 pb-20 md:pb-0" onsubmit="submitQuoteForm(event)">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Name</label>
+                                <input id="quote-name" required class="w-full p-3 bg-white border border-gray-200 rounded focus:border-gold outline-none focus:ring-1 focus:ring-gold" placeholder="Your Name" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Phone</label>
+                                <input id="quote-phone" required type="tel" class="w-full p-3 bg-white border border-gray-200 rounded focus:border-gold outline-none focus:ring-1 focus:ring-gold" placeholder="071 570 8327" />
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Business Name</label>
+                            <input id="quote-business" required class="w-full p-3 bg-white border border-gray-200 rounded focus:border-gold outline-none focus:ring-1 focus:ring-gold" placeholder="Company Ltd" />
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Service Interested In</label>
+                            <div class="relative">
+                                <select id="quote-service" class="w-full p-3 bg-white border border-gray-200 rounded focus:border-gold outline-none appearance-none focus:ring-1 focus:ring-gold">
+                                    <option>Starter Website ($129)</option>
+                                    <option>Business Package ($259)</option>
+                                    <option>E-commerce ($400+)</option>
+                                    <option>Landing Page ($150)</option>
+                                    <option>Booking System ($500)</option>
+                                    <option>Custom / Other</option>
+                                </select>
+                                <i data-lucide="chevron-down" class="absolute right-3 top-3.5 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Project Details</label>
+                            <textarea id="quote-details" class="w-full p-3 bg-white border border-gray-200 rounded focus:border-gold outline-none h-24 focus:ring-1 focus:ring-gold" placeholder="Tell us a bit about what you need..."></textarea>
+                        </div>
+
+                        <div class="pt-4">
+                            <button type="submit" class="w-full py-4 bg-gold text-charcoal font-bold rounded shadow-md hover:bg-yellow-500 transition hover:shadow-lg">Send Request</button>
+                            <p class="text-center text-xs text-gray-400 mt-3">We respect your privacy. No spam.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DEMO VIEWER (Responsive) -->
+    <div id="demo-modal" class="fixed inset-0 z-[70] hidden bg-charcoal flex-col">
+        <!-- Top Bar -->
+        <div class="h-16 border-b border-white/10 flex items-center justify-between px-4 md:px-6 bg-charcoal text-white shadow-md z-10 shrink-0">
+            <div class="flex items-center gap-3">
+                <button onclick="closeModal('demo-modal')" class="md:hidden p-1">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <div class="overflow-hidden">
+                    <h3 id="demo-title" class="font-bold text-base md:text-lg truncate">Demo Site</h3>
+                </div>
+                <span class="hidden md:inline-block bg-gold text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase">Interactive Demo</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="hidden md:flex items-center text-sm text-gray-400 mr-4">
+                    <i data-lucide="monitor" class="w-4 h-4 mr-2"></i> Desktop View
+                </div>
+                <button onclick="closeModal('demo-modal'); openModal('quote-modal')" class="py-2 px-3 text-xs md:text-sm bg-gold text-charcoal font-bold rounded hover:bg-yellow-500 transition whitespace-nowrap">Get Design</button>
+                <button onclick="closeModal('demo-modal')" class="hidden md:block p-2 hover:bg-white/10 rounded-full">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Sidebar Nav (Desktop Only) -->
+            <div class="w-64 bg-slate-dark border-r border-white/5 flex-shrink-0 flex flex-col hidden md:flex">
+                <div class="p-6">
+                    <p class="text-xs font-bold text-gray-500 uppercase mb-4">Demo Pages</p>
+                    <div id="demo-nav-links" class="space-y-2">
+                        <!-- Links injected by JS -->
+                    </div>
+                </div>
+                <div class="mt-auto p-6 border-t border-white/5">
+                    <div class="text-xs text-gray-500 mb-2">Performance</div>
+                    <div class="flex items-center text-green-400 text-sm font-bold mb-1"><i data-lucide="check" class="w-4 h-4 mr-1"></i> Mobile Ready</div>
+                    <div class="flex items-center text-green-400 text-sm font-bold"><i data-lucide="check" class="w-4 h-4 mr-1"></i> Fast Load</div>
+                </div>
+            </div>
+
+            <!-- Device Simulator Area -->
+            <div class="flex-1 bg-gray-900 p-0 md:p-8 flex items-center justify-center overflow-auto relative">
+                <!-- Phone Frame (Hidden border on mobile for full screen feel) -->
+                <div class="w-full h-full md:w-[375px] md:h-[750px] bg-white md:rounded-[3rem] md:border-8 md:border-gray-800 md:shadow-2xl relative overflow-hidden shrink-0 md:ring-4 md:ring-black/50 transition-all duration-500" id="device-frame">
+                    <!-- Notch (Desktop only) -->
+                    <div class="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 h-6 w-40 bg-black rounded-b-xl z-20"></div>
+                    <!-- Screen Content -->
+                    <div id="demo-screen-content" class="w-full h-full bg-white overflow-y-auto no-scrollbar relative pt-0 md:pt-6">
+                        <!-- Content Injected Here -->
+                    </div>
+                    <!-- Home Indicator (Desktop only) -->
+                    <div class="hidden md:block absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-gray-600 rounded-full z-20"></div>
+                </div>
+                
+                <div class="absolute bottom-8 right-8 bg-black/80 backdrop-blur text-white p-4 rounded-lg max-w-xs text-xs hidden lg:block animate-fade-in">
+                    <h4 class="font-bold text-gold mb-1">Why this works</h4>
+                    <p id="demo-desc">Description here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DATA ---
+        const pricing = [
+            { id: 1, title: "Starter Website", pages: "1–3 pages", price: "$129", desc: "Perfect for establishing a professional digital presence quickly.", features: ["1–3 custom pages", "Mobile-first design", "WhatsApp integration", "Contact form", "Ecocash / Paynow links"], delivery: "5–7 day delivery", popular: false },
+            { id: 2, title: "Business / Corporate", pages: "5–10 pages", price: "$259", desc: "Our most popular package for established SMEs looking to grow.", features: ["Custom UI/UX design", "CMS (editable content)", "Mobile & tablet responsive", "SEO-ready structure", "Google Analytics"], delivery: "10–14 day delivery", popular: true },
+            { id: 3, title: "E-commerce Store", pages: "Full Store", price: "$400+", desc: "Sell online with local payments and automated logic.", features: ["Online store setup", "Product uploads (up to 30)", "Ecocash / Paynow / USD", "Shipping rules", "WhatsApp order notes"], delivery: "14–22 day delivery", popular: false },
+            { id: 4, title: "Landing & Funnels", pages: "Single High-Impact", price: "$150", desc: "High-conversion pages for campaigns and ads.", features: ["High-conversion layout", "Copy guidance", "Lead capture forms", "WhatsApp automation", "Mobile-optimized"], delivery: "7 day delivery", popular: false },
+            { id: 5, title: "Booking System", pages: "Complex System", price: "$500", desc: "For lodges, salons, and service businesses.", features: ["Online booking system", "Calendar integration", "Automated confirmations", "Mobile-friendly UX", "Admin dashboard"], delivery: "14–21 day delivery", popular: false }
+        ];
+
+        const portfolio = [
+            { id: 'lodge', name: "Kariba Safari Lodge", category: "Lodges", tagline: "Booking conversions ↑ 34%", description: "A serene booking experience connecting tourists to the wild." },
+            { id: 'realestate', name: "Aurum Real Estate", category: "Real Estate", tagline: "Lead generation ↑ 200%", description: "Property listings with advanced filtering by province and city." },
+            { id: 'retail', name: "ZimFoods Retail", category: "Retail", tagline: "Local sales automated", description: "A fast, lightweight shop for up to 30 products." },
+            { id: 'restaurant', name: "Ndeipi Restaurant", category: "Restaurant", tagline: "Online orders + Reservations", description: "Simple, appetite-inducing layout with quick reservation form." },
+            { id: 'corporate', name: "Harare Law Chambers", category: "Corporate", tagline: "Client trust established", description: "Professional, content-heavy site for a legal firm." },
+            { id: 'solar', name: "SunPower Zimbabwe", category: "Corporate", tagline: "Quote requests ↑ 50%", description: "Lead generation focus for renewable energy installer." }
+        ];
+
+        // --- RENDERERS ---
+
+        function renderPricing() {
+            const container = document.getElementById('pricing-container');
+            container.innerHTML = pricing.map(pkg => `
+                <div class="snap-center shrink-0 w-[85vw] md:w-auto relative flex flex-col p-8 rounded-lg border transition-all duration-300 group hover:-translate-y-2 ${pkg.popular ? 'border-gold shadow-2xl bg-white scale-100 z-10 ring-1 ring-gold/20' : 'border-gray-100 shadow-sm bg-white hover:border-gold/30 hover:shadow-lg'}">
+                    ${pkg.popular ? '<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gold text-charcoal text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-md">Most Popular</div>' : ''}
+                    <div class="mb-6">
+                        <h3 class="font-bold text-xl text-charcoal font-serif">${pkg.title}</h3>
+                        <p class="text-xs text-gray-500 mt-2 font-medium uppercase tracking-wide">${pkg.pages}</p>
+                    </div>
+                    <div class="mb-6"><span class="text-4xl font-bold text-charcoal tracking-tight">${pkg.price}</span></div>
+                    <p class="text-sm text-gray-600 mb-8 italic leading-relaxed">${pkg.desc}</p>
+                    <div class="flex-1 space-y-4 mb-8">
+                        ${pkg.features.map(f => `<div class="flex items-start text-xs text-gray-700"><i data-lucide="check" class="w-4 h-4 text-gold mt-0 mr-3 shrink-0"></i><span class="leading-tight">${f}</span></div>`).join('')}
+                    </div>
+                    <div class="mt-auto">
+                        <div class="text-xs text-gray-400 text-center mb-4 flex items-center justify-center gap-2"><i data-lucide="clock" class="w-3 h-3"></i> ${pkg.delivery}</div>
+                        <button onclick="openModal('quote-modal')" class="w-full py-3 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${pkg.popular ? 'bg-gold text-charcoal hover:bg-charcoal hover:text-white shadow-md' : 'border border-charcoal text-charcoal hover:bg-charcoal hover:text-white'}">Get Quote</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPortfolio(filter = 'All') {
+            const container = document.getElementById('portfolio-grid');
+            const filtered = filter === 'All' ? portfolio : portfolio.filter(p => p.category === filter);
+            
+            container.innerHTML = filtered.map((item, index) => `
+                <div class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 reveal-on-scroll" style="transition-delay: ${index * 0.1}s">
+                    <div class="h-72 bg-gray-100 relative flex items-center justify-center p-8 group-hover:bg-softwhite transition cursor-pointer overflow-hidden" onclick="openDemo('${item.id}')">
+                        <!-- Abstract Background Pattern -->
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-400 to-transparent"></div>
+                        
+                        <div class="w-36 h-64 bg-charcoal rounded-[1.5rem] border-4 border-charcoal shadow-2xl overflow-hidden relative transform group-hover:scale-110 group-hover:rotate-3 transition duration-700 ease-out z-10">
+                             <div class="w-full h-full bg-white relative group-hover:opacity-90 transition">
+                                <!-- Mock UI -->
+                                <div class="w-full h-10 bg-gray-100 flex items-center justify-between px-2 border-b">
+                                    <div class="w-4 h-4 bg-gray-300 rounded-full"></div>
+                                    <div class="w-16 h-1.5 bg-gray-200 rounded"></div>
+                                </div>
+                                <div class="p-3 space-y-3">
+                                   <div class="w-full h-24 bg-gray-100 rounded mb-2 overflow-hidden relative">
+                                        <div class="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200"></div>
+                                   </div>
+                                   <div class="w-3/4 h-2 bg-gray-200 rounded"></div>
+                                   <div class="w-1/2 h-2 bg-gray-200 rounded"></div>
+                                   <div class="flex gap-2 mt-4">
+                                        <div class="w-full h-6 bg-gold/20 rounded"></div>
+                                        <div class="w-full h-6 bg-gray-100 rounded"></div>
+                                   </div>
+                                </div>
+                                <div class="absolute inset-0 bg-charcoal/80 backdrop-blur-[2px] flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                                  <span class="bg-gold text-charcoal text-xs font-bold px-5 py-2.5 rounded-full transform translate-y-4 group-hover:translate-y-0 transition duration-500 uppercase tracking-wide">View Demo</span>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="p-8 border-t border-gray-100">
+                        <div class="flex justify-between items-start mb-3">
+                             <h3 class="font-bold text-xl text-charcoal font-serif group-hover:text-gold transition-colors">${item.name}</h3>
+                             <span class="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 px-2 py-1 rounded">${item.category}</span>
+                        </div>
+                        <p class="text-green-600 text-sm font-bold mb-6 flex items-center bg-green-50 w-fit px-2 py-1 rounded"><i data-lucide="trending-up" class="w-4 h-4 mr-1.5"></i> ${item.tagline}</p>
+                        <div class="flex gap-3">
+                            <button onclick="openDemo('${item.id}')" class="flex-1 py-3 border border-gray-200 rounded-sm text-sm font-bold text-gray-600 hover:border-gold hover:text-gold transition uppercase tracking-wide">View Demo</button>
+                            <button onclick="openModal('quote-modal')" class="flex-1 py-3 bg-charcoal text-white rounded-sm text-sm font-bold hover:bg-gray-800 transition uppercase tracking-wide">Get Quote</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Re-trigger scroll reveal observer for new elements
+            observeElements();
+            lucide.createIcons();
+        }
+
+        // --- FORM SUBMISSION FUNCTION ---
+        function submitQuoteForm(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('quote-name').value;
+            const phone = document.getElementById('quote-phone').value;
+            const business = document.getElementById('quote-business').value;
+            const service = document.getElementById('quote-service').value;
+            const details = document.getElementById('quote-details').value;
+            
+            // Create email subject and body
+            const subject = `New Quote Request from ${name} - ${business}`;
+            const body = `New Quote Request Received:%0D%0A%0D%0AName: ${name}%0D%0APhone: ${phone}%0D%0ABusiness: ${business}%0D%0AService Interested In: ${service}%0D%0A%0D%0AProject Details:%0D%0A${details}%0D%0A%0D%0ASent from Teknonia Website`;
+            
+            // Open email client with pre-filled details
+            window.location.href = `mailto:teknonia.co.zw@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Show confirmation message
+            alert('Thank you! Your email client will open with your request details. Please send the email to complete your request.');
+            
+            // Reset form
+            document.getElementById('quote-form').reset();
+            
+            // Close modal after a short delay
+            setTimeout(() => closeModal('quote-modal'), 1000);
+        }
+
+        // --- NAVIGATION LOGIC (SPA Router) ---
+        function navigateTo(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            const target = document.getElementById(`view-${viewId}`);
+            target.classList.add('active');
+            
+            // Reset animations in the new view
+            const animatedElements = target.querySelectorAll('.animate-slide-up, .reveal-on-scroll');
+            animatedElements.forEach(el => {
+                el.classList.remove('is-visible');
+                // Force reflow
+                void el.offsetWidth;
+                if(el.classList.contains('reveal-on-scroll')) {
+                     // The observer will pick it up
+                } else {
+                     // Re-run css animation
+                     el.style.animation = 'none';
+                     el.offsetHeight; /* trigger reflow */
+                     el.style.animation = null; 
+                }
+            });
+
+            // Update Nav State
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if(link.getAttribute('href') === `#${viewId}`) {
+                    link.classList.add('text-gold');
+                    link.classList.remove('text-gray-300');
+                } else {
+                    link.classList.remove('text-gold');
+                    link.classList.add('text-gray-300');
+                }
+            });
+
+            window.scrollTo(0,0);
+            document.getElementById('mobile-menu').classList.remove('translate-x-0');
+            document.getElementById('mobile-menu').classList.add('translate-x-full');
+            
+            // Re-observe elements
+            setTimeout(observeElements, 100);
+        }
+
+        function mobileNavigate(viewId) {
+            if(viewId === 'quote') {
+                document.getElementById('mobile-menu').classList.remove('translate-x-0');
+                document.getElementById('mobile-menu').classList.add('translate-x-full');
+                openModal('quote-modal');
+            } else {
+                navigateTo(viewId);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('translate-x-full')) {
+                menu.classList.remove('translate-x-full');
+                menu.classList.add('translate-x-0');
+            } else {
+                menu.classList.add('translate-x-full');
+                menu.classList.remove('translate-x-0');
+            }
+        }
+
+        function filterPortfolio(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if(btn.innerText === category) {
+                    btn.classList.add('bg-charcoal', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-white', 'text-gray-600', 'shadow-sm');
+                } else {
+                    btn.classList.remove('bg-charcoal', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-white', 'text-gray-600', 'shadow-sm');
+                }
+            });
+            renderPortfolio(category);
+        }
+
+        // --- MODAL LOGIC ---
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById(modalId).classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('flex');
+            document.body.style.overflow = 'auto';
+            
+            // Reset form if it's the quote modal
+            if (modalId === 'quote-modal') {
+                document.getElementById('quote-form').reset();
+            }
+        }
+
+        // --- SCROLL ANIMATIONS & PARALLAX ---
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        }
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            
+            // Parallax Logic
+            document.querySelectorAll('.parallax-layer').forEach(layer => {
+                const speed = layer.getAttribute('data-speed');
+                const yPos = -(scrolled * speed);
+                layer.style.transform = `translateY(${yPos}px)`;
+            });
+
+            // Nav Bar Logic
+            const nav = document.getElementById('main-nav');
+            if(scrolled > 50) {
+                nav.classList.add('shadow-md', 'bg-charcoal/95');
+                nav.classList.remove('bg-transparent');
+            } else {
+                // Keep it distinguishable
+            }
+        });
+
+        // --- DEMO CONTENT GENERATION ---
+        
+        const DEMO_HTML = {
+            'lodge': `
+                <div class="bg-stone-100 min-h-full font-serif text-stone-800 pb-8">
+                    <div class="h-64 bg-stone-800 flex items-center justify-center text-white relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                        <div class="relative z-10 text-center p-4">
+                            <h2 class="text-4xl font-light tracking-widest mb-2">KARIBA SAFARI</h2>
+                            <p class="mt-2 text-sm italic opacity-90">Wilderness Refined</p>
+                            <button class="mt-6 px-8 py-3 bg-amber-700 text-white text-xs tracking-widest uppercase hover:bg-amber-800 transition">Book Your Stay</button>
+                        </div>
+                    </div>
+                    <div class="p-4 grid grid-cols-2 gap-4 max-w-lg mx-auto -mt-10 relative z-20">
+                        <div class="bg-white p-6 shadow-lg text-center rounded-sm"><h3 class="text-xs font-bold text-amber-900 mb-1">CHECK IN</h3><p class="text-xs text-gray-400">Select Dates</p></div>
+                        <div class="bg-white p-6 shadow-lg text-center rounded-sm"><h3 class="text-xs font-bold text-amber-900 mb-1">LOCATION</h3><p class="text-xs text-gray-400">View Map</p></div>
+                    </div>
+                    <div class="p-8 text-center space-y-6 max-w-lg mx-auto">
+                        <h3 class="text-2xl italic text-stone-700">The Experience</h3>
+                        <p class="text-sm text-stone-600 leading-loose">Nestled on the banks of Lake Kariba, we offer an escape into nature without compromising on luxury. Watch elephants from your private balcony.</p>
+                        <div class="w-full h-48 bg-gray-200 rounded-sm overflow-hidden">
+                             <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover"/>
+                        </div>
+                    </div>
+                </div>
+            `,
+            'realestate': `
+                <div class="bg-slate-50 min-h-full font-sans text-slate-800">
+                    <div class="bg-slate-900 text-white p-8 pb-16 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-500 rounded-full blur-[80px] opacity-10"></div>
+                        <div class="flex justify-between items-center mb-8 relative z-10">
+                            <span class="font-bold text-2xl tracking-tighter text-yellow-500">AURUM</span>
+                            <span class="text-xs uppercase opacity-70 tracking-widest border border-white/20 px-3 py-1 rounded-full">Menu</span>
+                        </div>
+                        <h1 class="text-4xl font-light mb-6 leading-tight relative z-10">Find your place in <br/><span class="font-bold text-yellow-500">Harare</span>.</h1>
+                        <div class="bg-white p-2 rounded-lg flex shadow-2xl transform translate-y-8 relative z-20">
+                            <input placeholder="Search suburb..." class="flex-1 p-3 text-slate-800 text-sm outline-none bg-transparent"/>
+                            <button class="bg-yellow-500 p-3 rounded-md text-slate-900 hover:bg-yellow-400"><i data-lucide="search" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                    <div class="mt-16 px-6 pb-8 space-y-6">
+                        <div class="flex justify-between items-end">
+                            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Featured</h2>
+                            <span class="text-xs text-yellow-600 font-bold">View All</span>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-sm overflow-hidden group hover:shadow-lg transition">
+                            <div class="h-48 bg-slate-200 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"/>
+                                <div class="absolute top-4 left-4 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded">JUST LISTED</div>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-bold text-xl mb-1">Borrowdale Brooke</h3>
+                                <p class="text-xs text-slate-400 mb-4">Harare North</p>
+                                <div class="flex justify-between items-center pt-4 border-t border-slate-50">
+                                    <span class="text-xs font-medium text-slate-500">4 Bed • Pool</span>
+                                    <span class="font-bold text-green-700 text-lg">$350k</span>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="bg-white rounded-2xl shadow-sm overflow-hidden group hover:shadow-lg transition">
+                            <div class="h-48 bg-slate-200 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"/>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-bold text-xl mb-1">Avondale Garden Flat</h3>
+                                <p class="text-xs text-slate-400 mb-4">Avondale West</p>
+                                <div class="flex justify-between items-center pt-4 border-t border-slate-50">
+                                    <span class="text-xs font-medium text-slate-500">2 Bed • Secure</span>
+                                    <span class="font-bold text-green-700 text-lg">$120k</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            'retail': `
+                <div class="bg-white min-h-full font-sans">
+                    <nav class="sticky top-0 z-10 border-b p-4 flex justify-between items-center bg-green-700 text-white shadow-md">
+                        <span class="font-black italic text-xl tracking-tighter">ZimFoods</span>
+                        <div class="relative">
+                            <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                            <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[10px] flex items-center justify-center font-bold">2</div>
+                        </div>
+                    </nav>
+                    <div class="p-3 bg-yellow-50 border-b border-yellow-100 text-yellow-800 text-xs text-center font-medium flex items-center justify-center gap-2">
+                        <i data-lucide="truck" class="w-4 h-4"></i> Free delivery in Harare CBD > $50!
+                    </div>
+                    <div class="p-4">
+                        <h2 class="font-bold text-gray-800 mb-4">Fresh Arrivals</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="border rounded-xl p-3 text-center hover:shadow-lg transition">
+                                <div class="h-28 bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                                    <img src="https://images.unsplash.com/photo-1586816001966-79b736744398?auto=format&fit=crop&w=200&q=80" class="h-full object-contain mix-blend-multiply"/>
+                                </div>
+                                <h4 class="font-bold text-sm text-gray-700">Pearlenta 10kg</h4>
+                                <div class="flex justify-between items-center mt-3">
+                                    <span class="font-bold text-green-700">$5.00</span>
+                                    <button class="bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-green-800 shadow-md">+</button>
+                                </div>
+                            </div>
+                             <div class="border rounded-xl p-3 text-center hover:shadow-lg transition">
+                                <div class="h-28 bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                                    <img src="https://images.unsplash.com/photo-1621447553392-411dbb5b9c02?auto=format&fit=crop&w=200&q=80" class="h-full object-contain mix-blend-multiply"/>
+                                </div>
+                                <h4 class="font-bold text-sm text-gray-700">Mazoe Orange</h4>
+                                <div class="flex justify-between items-center mt-3">
+                                    <span class="font-bold text-green-700">$3.50</span>
+                                    <button class="bg-green-700 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-green-800 shadow-md">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            'restaurant': `
+                 <div class="bg-orange-50 min-h-full font-serif pb-8">
+                    <header class="bg-white p-5 flex justify-between items-center shadow-sm sticky top-0 z-20">
+                        <h1 class="text-2xl font-bold text-orange-600 tracking-tight">Ndeipi</h1>
+                        <button class="bg-orange-600 text-white text-xs font-bold uppercase tracking-wider px-5 py-2 rounded-full shadow-lg hover:bg-orange-700 transition">Order Online</button>
+                    </header>
+                    <div class="h-64 bg-orange-200 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover opacity-80">
+                        <div class="absolute inset-0 bg-black/30"></div>
+                        <h2 class="text-5xl text-white font-black rotate-[-3deg] relative z-10 drop-shadow-lg">Taste Home</h2>
+                    </div>
+                    <div class="p-6 -mt-12 relative z-10">
+                        <div class="bg-white p-6 rounded-2xl shadow-xl">
+                            <h3 class="text-center font-bold text-gray-800 mb-6 uppercase text-xs tracking-widest border-b pb-4">Book a Table</h3>
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 flex items-center">
+                                    <i data-lucide="calendar" class="w-5 h-5 text-gray-400 mr-3"></i>
+                                    <input type="date" class="bg-transparent w-full text-sm outline-none" />
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 flex items-center">
+                                    <i data-lucide="users" class="w-5 h-5 text-gray-400 mr-3"></i>
+                                    <select class="bg-transparent w-full text-sm outline-none">
+                                        <option>2 Guests</option>
+                                        <option>4 Guests</option>
+                                        <option>Large Group</option>
+                                    </select>
+                                </div>
+                                <button class="w-full bg-gray-900 text-white py-4 rounded-lg font-bold text-sm uppercase tracking-wide hover:bg-orange-600 transition duration-300">Find Table</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 mt-4">
+                        <h3 class="font-bold text-lg mb-4">Popular Today</h3>
+                        <div class="bg-white p-4 rounded-xl shadow-sm flex gap-4 items-center">
+                            <div class="w-16 h-16 bg-gray-200 rounded-lg shrink-0">
+                                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-lg"/>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Sadza & Beef Stew</h4>
+                                <span class="text-xs text-orange-600 font-bold">$8.00</span>
+                            </div>
+                            <button class="ml-auto w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">+</button>
+                        </div>
+                    </div>
+                </div>
+            `
+        };
+
+        function openDemo(siteId) {
+            const site = portfolio.find(p => p.id === siteId);
+            if(!site) return;
+
+            document.getElementById('demo-title').innerText = site.name;
+            document.getElementById('demo-desc').innerText = site.description;
+            
+            // Set content based on ID, fallback to placeholder if no specific HTML
+            const content = DEMO_HTML[siteId] || `<div class="h-full flex items-center justify-center bg-gray-100 text-gray-500">Demo content for ${site.name}</div>`;
+            document.getElementById('demo-screen-content').innerHTML = content;
+
+            // Setup Nav Links (Dummy)
+            const navContainer = document.getElementById('demo-nav-links');
+            navContainer.innerHTML = `
+                <button class="w-full text-left px-4 py-3 rounded text-sm bg-gold text-black font-bold mb-1 shadow-md">Home</button>
+                <button class="w-full text-left px-4 py-3 rounded text-sm text-gray-400 hover:bg-white/5 transition">About</button>
+                <button class="w-full text-left px-4 py-3 rounded text-sm text-gray-400 hover:bg-white/5 transition">Contact</button>
+            `;
+
+            openModal('demo-modal');
+            lucide.createIcons();
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            renderPricing();
+            renderPortfolio();
+            lucide.createIcons();
+            
+            // Initialize Router
+            const hash = window.location.hash.replace('#', '');
+            if(hash) {
+                navigateTo(hash);
+            } else {
+                navigateTo('home');
+            }
+
+            observeElements();
+        };
+
+    </script>
+</body>
+</html>
